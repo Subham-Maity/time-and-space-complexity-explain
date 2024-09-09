@@ -2,8 +2,11 @@
 
 - [Concept:](#concept)
 - [Easy Big O Calculation Rules:](#easy-big-o-calculation-rules)
-- [How to calculate program's time complexity](#how-to-calculate-programs-time-complexity)
-- [Constraints](#constraints)
+- [How to calculate program's time complexity:](#how-to-calculate-programs-time-complexity)
+- [Constraints:](#constraints)
+- [What is space complexity:](#space-complexity)
+- [How to calculate program's space complexity:](#how-to-calculate-programs-space-complexity)
+- [Tips and Tricks for Analyzing Space Complexity:](#tips-and-tricks-for-analyzing-space-complexity)
 ## Concept:
 ![img1](./img/1.png)
 ![img2](./img/2.png)
@@ -242,4 +245,171 @@ Here’s a summary of how different time complexities behave relative to the inp
 3. **Binary Search on a Sorted Array**
     - Input size: `1 ≤ n ≤ 10^9`
     - A binary search (O(log n)) would perform at most **30 operations** for `n = 10^9`, making it extremely efficient.
+
+
+
+## Space Complexity
+
+Space complexity refers to the amount of extra memory (space) required by the algorithm, aside from the input data. It is typically expressed in terms of the input size `n`.
+
+- **O(1)**: Constant space, meaning the space required does not grow with input size.
+- **O(n)**: Linear space, meaning the space grows linearly with the input size.
+
+A simple trick to analyze space complexity:
+- Look at the memory used by **variables**, **arrays**, and **recursion**.
+- Only count **extra space** beyond the input size.
+
+## How to calculate program's space complexity
+
+### 1. **Print Array**
+```cpp
+void printArray(int arr[], int n) {
+    for(int i = 0; i < n; i++) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+}
+```
+
+- **Explanation**: This function does not use any additional space beyond the input array `arr`. It only uses the input size and a few variables like `i`, which take constant space.
+- **Space Complexity**: **O(1)** (constant space)
+
+
+
+### 2. **Reverse an Array**
+```cpp
+void reverse(int arr[], int n) {
+    int start = 0;
+    int end = n - 1;
+    while (start <= end) {
+        swap(arr[start], arr[end]);
+        start++;
+        end--;
+    }
+}
+```
+
+- **Explanation**: The function modifies the array in place, so no additional memory is used apart from the input array and a few constant variables (`start`, `end`).
+- **Space Complexity**: **O(1)** (constant space)
+
+
+
+### 3. **Linear Search**
+```cpp
+int linearSearch(int arr[], int n, int x) {
+    for (int i = 0; i < n; i++) {
+        if (arr[i] == x) {
+            return i; 
+        }
+    }
+    return -1;
+}
+```
+
+- **Explanation**: The function uses only a constant amount of extra space (loop variable `i`), so no additional memory is allocated other than the input array.
+- **Space Complexity**: **O(1)** (constant space)
+
+
+
+### 4. **Separate Loops**
+```cpp
+int a = 0, b = 0;
+for (int i = 0; i < N; i++) {
+    a = a + rand();
+}
+for (int j = 0; j < M; j++) {
+    b = b + rand();
+}
+```
+
+- **Explanation**: The loops do not use any additional memory, aside from the two variables `a` and `b` and the loop counters `i` and `j`. All of these take constant space.
+- **Space Complexity**: **O(1)** (constant space)
+
+
+
+### 5. **Nested Loop with Independent Loop**
+```cpp
+int a = 0, b = 0;
+for (int i = 0; i < N; i++) {
+    for (int j = 0; j < N; j++) {
+        a = a + j;
+    }
+}
+for (int k = 0; k < N; k++) {
+    b = b + k;
+}
+```
+
+- **Explanation**: Similar to the previous examples, the only extra memory used is for variables (`a`, `b`, `i`, `j`, `k`). No additional arrays or complex data structures are created.
+- **Space Complexity**: **O(1)** (constant space)
+
+
+
+### 6. **Nested Loop with Varying Inner Loop**
+```cpp
+int a = 0;
+for (int i = 0; i < N; i++) {
+    for (int j = N; j > i; j--) {
+        a = a + i + j;
+    }
+}
+```
+
+- **Explanation**: The space complexity remains constant because only a few variables (`a`, `i`, `j`) are used. There is no additional data storage.
+- **Space Complexity**: **O(1)** (constant space)
+
+
+
+### 7. **Get Minimum and Maximum from Array**
+```cpp
+#include<iostream>
+using namespace std;
+
+int getMin(int num[], int n) {
+    int min = INT_MAX;
+    for(int i = 0; i < n; i++) {
+        if(num[i] < min) {
+            min = num[i];
+        }
+    }
+    return min;
+}
+
+int getMax(int num[], int n) {
+    int max = INT_MIN;
+    for(int i = 0; i < n; i++) {
+        if(num[i] > max) {
+            max = num[i];
+        }
+    }
+    return max; 
+}
+```
+
+- **Explanation**: Both functions use a single variable (`min` or `max`) and iterate over the array without requiring any extra memory allocation. The input array is not duplicated or changed.
+- **Space Complexity**: **O(1)** (constant space)
+
+
+
+## **Tips and Tricks for Analyzing Space Complexity**
+1. **Look for Recursion**: Recursive algorithms often use extra memory for the call stack. If a function calls itself `n` times, the space complexity might be **O(n)** due to the recursive stack.
+
+2. **Check for Additional Data Structures**: If your algorithm creates extra arrays, lists, or other data structures, it increases space complexity. For example:
+   - Storing a copy of an array → **O(n)**
+   - Using a hash table → **O(n)**
+
+3. **In-Place Algorithms**: Algorithms that modify the input directly, without using additional space, typically have **O(1)** space complexity.
+
+4. **Helper Arrays or Variables**: If the algorithm uses an extra array of size `n`, the space complexity is **O(n)**. If it uses just a few variables, the space complexity is **O(1)**.
+
+
+| Algorithm                                | Time Complexity | Space Complexity |
+|------------------------------------------|-----------------|------------------|
+| Print Array                              | O(n)            | O(1)             |
+| Reverse an Array                         | O(n)            | O(1)             |
+| Linear Search                            | O(n)            | O(1)             |
+| Separate Loops                           | O(N + M)        | O(1)             |
+| Nested Loop with Independent Loop        | O(N²)           | O(1)             |
+| Nested Loop with Varying Inner Loop      | O(N²)           | O(1)             |
+| Get Minimum and Maximum from Array       | O(n)            | O(1)             |
 
