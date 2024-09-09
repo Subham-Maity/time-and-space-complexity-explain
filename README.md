@@ -3,6 +3,7 @@
 - [Concept:](#concept)
 - [Easy Big O Calculation Rules:](#easy-big-o-calculation-rules)
 - [How to calculate program's time complexity](#how-to-calculate-programs-time-complexity)
+- [Constraints](#constraints)
 ## Concept:
 ![img1](./img/1.png)
 ![img2](./img/2.png)
@@ -44,11 +45,6 @@ Key points:
 
 
 ## How to calculate program's time complexity
-Here's an improved and cleaner version of your explanation for calculating time complexity:
-
----
-
-## How to Calculate Time Complexity
 
 ### 1. Print Array
 ```cpp
@@ -161,4 +157,89 @@ int getMax(int num[], int n) {
 - **Time Complexity**: O(n) for both functions.
 
 
+
+
+## Constraints
+
+### 1. **Basic Benchmark: 10^8 Operations/Second**
+Modern computers can generally perform around **10^8 operations per second**. This is the benchmark for time complexity decisions. Based on this, we estimate what kind of algorithms will perform well given certain input sizes.
+
+### 2. **Input Size Constraints**
+You'll often see input size constraints like:
+
+- **1 ≤ n ≤ 1000**
+- **1 ≤ n ≤ 10^6**
+- **1 ≤ n ≤ 10^9**
+
+Each range influences which time complexity is acceptable.
+
+#### **Case 1: 1 ≤ n ≤ 1000**
+- For small input sizes (up to 1000), algorithms with time complexities up to **O(n²)** are usually acceptable.
+- Example: If `n = 1000`, an O(n²) algorithm would perform at most **1000² = 10^6 operations**, which is feasible since it's under 10^8.
+
+**Suitable time complexities**:
+- O(n)
+- O(n log n)
+- O(n²)
+
+**Avoid**:
+- O(2ⁿ), O(n!), etc., as they grow extremely fast.
+
+#### **Case 2: 1 ≤ n ≤ 10^6**
+- This is a more common constraint in competitive programming. For `n` values up to 10^6, algorithms with time complexities around **O(n log n)** are generally acceptable.
+- Example: If `n = 10^6`, an O(n log n) algorithm would perform roughly **10^6 * log(10^6) ≈ 2 × 10^7 operations**, which is under the 10^8 threshold.
+
+**Suitable time complexities**:
+- O(n)
+- O(n log n)
+
+**Avoid**:
+- O(n²) (as 10^6² = 10^12 operations would take too long).
+
+#### **Case 3: 1 ≤ n ≤ 10^9**
+- This is a large input size, and here you need to ensure that your algorithm runs in **O(n)** or better, such as **O(log n)**.
+- Example: For `n = 10^9`, an O(n) algorithm would perform **10^9 operations**, which is close to the upper limit but feasible. However, O(n log n) algorithms might exceed the time limit.
+
+**Suitable time complexities**:
+- O(n)
+- O(log n)
+- O(1)
+
+**Avoid**:
+- O(n log n) and higher, such as O(n²), O(2ⁿ), and O(n!).
+
+
+
+### 3. **Common Time Complexities and Their Feasibility**
+Here’s a summary of how different time complexities behave relative to the input size:
+
+- **O(1)**: Constant time, the fastest. Suitable for any input size.
+- **O(log n)**: Efficient even for very large inputs (e.g., binary search). Suitable up to `n = 10^9` or higher.
+- **O(n)**: Linear time, acceptable for inputs up to `n = 10^9`.
+- **O(n log n)**: Slightly slower but often used for sorting algorithms. Suitable for `n` up to `10^6`.
+- **O(n²)**: Quadratic time, becomes infeasible beyond `n = 1000`. Suitable only for small inputs.
+- **O(2ⁿ)**: Exponential time, infeasible beyond very small values of `n` (e.g., `n > 20`).
+- **O(n!)**: Factorial time, grows extremely fast. Suitable only for very small `n` (e.g., `n ≤ 10`).
+
+
+### 4. **Guidelines for Choosing Time Complexity Based on Input Size**
+- **For 1 ≤ n ≤ 100**: You can afford slower algorithms like O(n²) or even O(2ⁿ).
+- **For 1 ≤ n ≤ 1000**: O(n²) is acceptable, but avoid exponential growth algorithms.
+- **For 1 ≤ n ≤ 10^6**: Aim for O(n log n) or faster (O(n)).
+- **For 1 ≤ n ≤ 10^9**: Stick to O(n) or O(log n) algorithms to ensure your solution runs within the time limit.
+
+
+
+### 5. **Example Scenarios**
+1. **Sorting an Array**
+    - Input size: `1 ≤ n ≤ 10^5`
+    - A sorting algorithm like **Merge Sort (O(n log n))** is feasible because `n log n` for `n = 10^5` would yield approximately **2 × 10^6 operations**, which is well within the limit.
+
+2. **Finding Pairs in an Array (Brute Force)**
+    - Input size: `1 ≤ n ≤ 10^6`
+    - A brute-force O(n²) solution would perform **10^12 operations** for `n = 10^6`, which would exceed time limits. Instead, use a more efficient approach, like a two-pointer technique or hashing, to reduce the time complexity to O(n).
+
+3. **Binary Search on a Sorted Array**
+    - Input size: `1 ≤ n ≤ 10^9`
+    - A binary search (O(log n)) would perform at most **30 operations** for `n = 10^9`, making it extremely efficient.
 
